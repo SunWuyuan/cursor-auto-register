@@ -33,10 +33,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# 添加等待脚本
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
-RUN chmod +x /wait
-
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
@@ -44,5 +40,5 @@ EXPOSE 8000
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 
-# Run the application - 修改启动命令，确保在正确的目录中运行
-CMD /wait && cd /app && python -m uvicorn api:app --host ${API_HOST} --port ${API_PORT} --workers ${API_WORKERS} 
+# Run the application
+CMD cd /app && python api.py --host ${API_HOST} --port ${API_PORT} --workers ${API_WORKERS} 
