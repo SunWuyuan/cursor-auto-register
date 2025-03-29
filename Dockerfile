@@ -40,8 +40,9 @@ RUN chmod +x /wait
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
-# Define environment variable
+# Define environment variables
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
 
-# Run the application
-CMD /wait && python -m uvicorn api:app --host ${API_HOST} --port ${API_PORT} --workers ${API_WORKERS} 
+# Run the application - 修改启动命令，确保在正确的目录中运行
+CMD /wait && cd /app && python -m uvicorn api:app --host ${API_HOST} --port ${API_PORT} --workers ${API_WORKERS} 
