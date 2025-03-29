@@ -43,7 +43,7 @@ class BrowserManager:
                 extension_path = self._get_extension_path()
                 co.add_extension(extension_path)
             except FileNotFoundError as e:
-                error(f"加载插件失败，警告: {e}")
+                info(f"警告: {e}")
 
             # 设置User-Agent
             if DYNAMIC_USERAGENT:
@@ -51,11 +51,9 @@ class BrowserManager:
                 user_agent = get_random_user_agent()
                 info(f"使用动态User-Agent: {user_agent}")
                 co.set_user_agent(user_agent)
-            elif BROWSER_USER_AGENT:
+            else:
                 info(f"使用固定User-Agent: {BROWSER_USER_AGENT}")
                 co.set_user_agent(BROWSER_USER_AGENT)
-            else:
-                info("不配置User-Agent")
 
             co.set_pref("credentials_enable_service", False)
             co.set_argument("--hide-crash-restore-bubble")
@@ -68,7 +66,7 @@ class BrowserManager:
             co.set_pref("webgl.vendor", "NVIDIA Corporation")
             co.set_pref(
                 "webgl.renderer",
-                "ANGLE (NVIDIA, NVIDIA GeForce RTX 3060 Direct3D11 vs_5_0 ps_5_0)",
+                "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 Direct3D11 vs_5_0 ps_5_0)",
             )
             co.set_pref("navigator.plugins.length", 5)
             co.set_pref("navigator.hardwareConcurrency", 8)
@@ -86,9 +84,7 @@ class BrowserManager:
             co.set_pref("screen.height", 1080)
             co.set_pref("screen.pixelDepth", 24)
             co.auto_port()
-
-            # 生产环境使用无头模式
-            co.headless(BROWSER_HEADLESS)
+            co.headless(BROWSER_HEADLESS)  # 生产环境使用无头模式
 
             # Mac 系统特殊处理
             if sys.platform == "darwin" or sys.platform == "linux":
@@ -105,7 +101,7 @@ class BrowserManager:
                     
                 proxy_string += f"{PROXY_HOST}:{PROXY_PORT}"
                 
-                info(f"使用代理: {PROXY_TYPE} {proxy_string}")
+                info(f"使用代理: {PROXY_TYPE} {PROXY_HOST}:{PROXY_PORT} 账号/密码： {PROXY_USERNAME}:{PROXY_PASSWORD}")
                 co.set_argument(f'--proxy-server={proxy_string}')
 
             self.browser = Chromium(co)

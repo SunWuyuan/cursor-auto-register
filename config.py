@@ -53,8 +53,6 @@ SIGN_UP_URL = "https://authenticator.cursor.sh/sign-up"
 SETTINGS_URL = "https://www.cursor.com/settings"
 
 # ===== 邮箱配置 =====
-# 邮箱验证码获取方式
-EMAIL_CODE_TYPE = os.getenv("EMAIL_CODE_TYPE", "API")
 # 邮箱类型
 EMAIL_TYPE = os.getenv("EMAIL_TYPE", "tempemail")
 # 临时邮箱用户名
@@ -79,18 +77,18 @@ EMAIL_VERIFICATION_RETRIES = int(os.getenv("EMAIL_VERIFICATION_RETRIES", 5))
 EMAIL_VERIFICATION_WAIT = int(os.getenv("EMAIL_VERIFICATION_WAIT", 5))
 
 # ===== 数据库配置 =====
-# 数据库文件名
-DB_NAME = "accounts.db"
-# 根据操作系统生成适当的数据库文件路径
-if os.name == "nt":  # Windows
-    DB_PATH = os.path.join(os.getcwd(), DB_NAME)
-    DATABASE_URL = f"sqlite+aiosqlite:///{DB_PATH}"
-else:  # Linux/Unix
-    DB_PATH = os.path.join("/app", DB_NAME)
-    DATABASE_URL = f"sqlite+aiosqlite:{DB_PATH}"
+# 默认 MySQL 连接参数
+MYSQL_HOST = os.getenv("MYSQL_HOST", "mysql")
+MYSQL_PORT = os.getenv("MYSQL_PORT", "3306")
+MYSQL_USER = os.getenv("MYSQL_USER", "cursor")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "cursor_password")
+MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "cursor_db")
+
+# 构建默认的 MySQL 连接 URL - 禁用 SSL
+DEFAULT_DATABASE_URL = f"mysql+aiomysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DATABASE}"
 
 # 允许通过环境变量覆盖默认的数据库URL
-DATABASE_URL = os.getenv("DATABASE_URL", DATABASE_URL)
+DATABASE_URL = os.getenv("DATABASE_URL", DEFAULT_DATABASE_URL)
 
 # ===== Cursor main.js 配置 =====
 # Cursor 主文件路径

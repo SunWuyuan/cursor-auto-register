@@ -1,12 +1,19 @@
-DrissionPage==4.1.0.9
-psutil==6.1.0
-fastapi==0.109.0
-uvicorn==0.27.0
-pydantic==2.5.3
-sqlalchemy==2.0.25
-asyncpg==0.29.0
-python-dotenv==1.0.0
-psycopg2-binary==2.9.9
-playwright==1.41.2
-aiosqlite==0.21.0
-fake-useragent==2.1.0
+# Web框架
+fastapi>=0.95.0
+uvicorn>=0.21.1
+python-multipart>=0.0.6
+pydantic>=1.10.7
+
+# 数据库
+sqlalchemy>=2.0.0
+aiomysql>=0.1.1    # MySQL异步驱动
+pymysql>=1.0.2     # PyMySQL (aiomysql的依赖)
+
+# 浏览器自动化
+playwright>=1.32.1
+DrissionPage>=4.0.0
+fake-useragent>=1.1.1
+
+# 系统工具
+psutil>=5.9.4
+python-dotenv>=1.0.0
