@@ -38,7 +38,6 @@ EXPOSE 8000
 
 # Define environment variables
 ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
 
 # Run the application
-CMD python api.py --host ${API_HOST} --port ${API_PORT} --workers ${API_WORKERS} 
+CMD ls && python api.py --host ${API_HOST} --port ${API_PORT} --workers ${API_WORKERS} 
