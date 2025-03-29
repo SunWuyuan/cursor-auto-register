@@ -8,7 +8,6 @@ services:
     env_file:
       - .env
     volumes:
-      - .:/app
       - ./app.log:/app/app.log
     depends_on:
       mysql:

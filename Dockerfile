@@ -10,8 +10,11 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     default-libmysqlclient-dev \
     build-essential \
+    libssl-dev \
+    libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Chrome for Playwright
 RUN apt update && apt install -y wget && \
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     apt install -y fonts-liberation libasound2 libatk-bridge2.0-0 libatk1.0-0 \
@@ -26,18 +29,22 @@ RUN apt update && apt install -y wget && \
 # Install Playwright and its dependencies
 RUN pip install --no-cache-dir playwright && playwright install
 
+# Install cryptography package for MySQL authentication
+RUN pip install --no-cache-dir cryptography
+
 # Copy requirements first for better caching
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Copy the entire project directory
+COPY . /app/
 
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
 # Define environment variables
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
 
 # Run the application
-CMD ls && python api.py --host ${API_HOST} --port ${API_PORT} --workers ${API_WORKERS} 
+CMD python api.py --host ${API_HOST:-0.0.0.0} --port ${API_PORT:-8000} --workers ${API_WORKERS:-1} 
