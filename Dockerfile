@@ -41,4 +41,4 @@ ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 
 # Run the application
-CMD cd /app && python api.py --host ${API_HOST} --port ${API_PORT} --workers ${API_WORKERS} 
+CMD python api.py --host ${API_HOST} --port ${API_PORT} --workers ${API_WORKERS} 
