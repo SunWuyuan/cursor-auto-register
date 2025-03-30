@@ -36,9 +36,10 @@ class EmailVerificationHandler:
     def check(self):
         mail_list_url = f"https://tempmail.plus/api/mails?email={self.username}{self.emailExtension}&limit=20&epin={self.pin}"
         try:
-            mail_list_response = self.session.get(mail_list_url, timeout=10)  # 添加超时参数
+            mail_list_response = self.session.get(mail_list_url)  # 添加超时参数
             mail_list_data = mail_list_response.json()
             time.sleep(0.5)
+            print(mail_list_data)
             if not mail_list_data.get("result"):
                 return True
         except requests.exceptions.Timeout:
